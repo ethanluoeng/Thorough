@@ -7,24 +7,32 @@ META_PATH = "backend/data/metadata.json"
 
 class VectorStore:
     def __init__(self, dim: int):
-        self.index = faiss.IndexFlatL2(dim)
+        self.index = faiss.IndexFlatIP(dim)
         self.metadata = []
 
     def add(self, vectors, metadata):
+        faiss.normalize_L2(vectors)
         self.index.add(vectors)
         self.metadata.extend(metadata)
 
-    def search(self, query_vector, k=5):
-        distances, indices = self.index.search(query_vector, k)
+    def search(self, query_vector, k=5, min_tokens=50):
+        faiss.normalize_L2(query_vector)
+        scores, indices = self.index.search(query_vector, k)
         results = []
+
         for i, idx in enumerate(indices[0]):
             if idx == -1:
                 continue
             meta = self.metadata[idx]
+
+            if len(meta["text"].split()) < min_tokens:
+                continue
+
             results.append({
                 "page": meta["page"],
-                "score": float(distances[0][i]),
-                "text_preview": meta["text"][:300]
+                "score": float(scores[0][i]),  # cosine similarity
+                "text_preview": meta["text"][:300],
+                "chapter": meta["chapter"]
             })
         return results
 
