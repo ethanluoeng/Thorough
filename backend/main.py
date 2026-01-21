@@ -55,6 +55,6 @@ async def search(file: UploadFile = File(...)):
     query_text = " ".join(p["text"] for p in query_pages)
 
     query_vec = embed_texts([query_text])
-    results = vector_store.search(query_vec, k=5)
+    results = vector_store.search(query_vec, 10, 50)
 
     return {"results": results}

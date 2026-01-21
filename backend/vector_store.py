@@ -15,12 +15,16 @@ class VectorStore:
         self.index.add(vectors)
         self.metadata.extend(metadata)
 
-    def search(self, query_vector, k=5, min_tokens=50):
+    def search(self, query_vector, k, min_tokens):
         faiss.normalize_L2(query_vector)
         scores, indices = self.index.search(query_vector, k)
         results = []
+        print("Index size:", self.index.ntotal)
+        print("Requested k:", k)
+
 
         for i, idx in enumerate(indices[0]):
+            print("Checking result", i + 1)
             if idx == -1:
                 continue
             meta = self.metadata[idx]
@@ -34,7 +38,8 @@ class VectorStore:
                 "text_preview": meta["text"][:300],
                 "chapter": meta["chapter"]
             })
-        return results
+            print("Found result", i + 1)
+        return results[:5]  # return top 5 results
 
     def save(self):
         faiss.write_index(self.index, INDEX_PATH)
