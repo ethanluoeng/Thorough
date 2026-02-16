@@ -8,6 +8,7 @@ import './App.css'
 
 function App() {
 
+  const [pdfFile, setPdfFile] = useState(null);
   const [pdfPage, setPdfPage] = useState([1]);
 
   return (
@@ -16,8 +17,8 @@ function App() {
         <NavBar />
 
         <Routes>
-          <Route path="/" element={<StudyPage buttons ={pdfPage}/>} />
-          <Route path="/settings" element={<SettingsPage setButtons={setPdfPage} />} />
+          <Route path="/" element={<StudyPage buttons={pdfPage} pdfFile={pdfFile}/>} />
+          <Route path="/settings" element={<SettingsPage setButtons={setPdfPage} setPdfFile={setPdfFile} />} />
         </Routes>
       </main>
     </BrowserRouter>

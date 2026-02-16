@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PdfViewer from "../components/PdfViewer.jsx"
 
-export default function PdfPage({ buttons }) {
+export default function PdfPage({ buttons, pdfFile }) {
   const [page, setPage] = useState(1)
 
   return (
@@ -11,7 +11,7 @@ export default function PdfPage({ buttons }) {
         {/* Left: PDF - takes up most of the space */}
         <div className="h-full overflow-auto col-span-9 custom-scrollbar">
           <PdfViewer
-          fileUrl="/Textbook.pdf"
+          fileUrl={pdfFile}
           page={page}
           />
         </div>

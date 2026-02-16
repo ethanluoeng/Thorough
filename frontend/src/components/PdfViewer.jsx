@@ -1,7 +1,44 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useMemo } from "react"
 import { Document, Page } from "react-pdf"
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
+
+// wrapper that only mounts <Page> when it is close to viewport
+function PageWrapper({ pageNum, width }) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    if (!ref.current) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting)
+      },
+      { rootMargin: '800px' } // preload pages within 800px of view
+    )
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const placeholderHeight = Math.round(width * 1.3) // approximate page aspect ratio
+  return (
+    <div
+      ref={ref}
+      id={`page-${pageNum}`}
+      style={{ minHeight: placeholderHeight, marginBottom: 16 }}
+    >
+      {visible && (
+        <Page
+          pageNumber={pageNum}
+          width={width}
+          renderTextLayer={true}
+          renderAnnotationLayer={true}
+          onRenderError={(err) => console.error("Page render error:", err)}
+        />
+      )}
+    </div>
+  )
+}
 
 export default function PdfViewer({ fileUrl, page }) {
   const [numPages, setNumPages] = useState(null)
@@ -32,6 +69,11 @@ export default function PdfViewer({ fileUrl, page }) {
     setError(err.message || "Failed to load PDF")
     setLoading(false)
   }
+
+  const pageList = useMemo(() => {
+    if (!numPages) return []
+    return Array.from({ length: numPages }, (_, i) => i + 1)
+  }, [numPages])
 
   return (
     <div 
@@ -72,16 +114,12 @@ export default function PdfViewer({ fileUrl, page }) {
           </div>
         }
       >
-        {numPages && Array.from({ length: numPages }, (_, i) => i + 1).map((pageNum) => (
-          <div key={pageNum} id={`page-${pageNum}`}>
-            <Page
-              pageNumber={pageNum}
-              width={pageWidth}
-              renderTextLayer={true}
-              renderAnnotationLayer={true}
-              onRenderError={(err) => console.error("Page render error:", err)}
-            />
-          </div>
+        {pageList.map((pageNum) => (
+          <PageWrapper
+            key={pageNum}
+            pageNum={pageNum}
+            width={pageWidth}
+          />
         ))}
       </Document>
 
