@@ -1,0 +1,9 @@
+---
+name: frontend
+description: editing frontend rules
+---
+
+# Overview
+
+- Don't change code in backend when editing front end.
+- Only use tailwindCSS for styling
