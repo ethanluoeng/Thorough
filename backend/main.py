@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import numpy as np
 import os
@@ -9,6 +10,14 @@ from .vector_store import VectorStore
 from .schemas import SearchResponse
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"], # Your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 vector_store = None
 
@@ -43,6 +52,7 @@ async def upload_textbook(file: UploadFile = File(...)):
 @app.post("/search", response_model=SearchResponse)
 async def search(file: UploadFile = File(...)):
     global vector_store
+    print("Received search request")
 
     if vector_store is None:
         raise RuntimeError("Textbook not indexed yet.")

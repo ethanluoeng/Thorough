@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PdfViewer from "../components/PdfViewer.jsx"
 
-export default function PdfPage() {
+export default function PdfPage({ buttons }) {
   const [page, setPage] = useState(1)
 
   return (
@@ -18,7 +18,7 @@ export default function PdfPage() {
 
         {/* Right: thin panel for navigation */}
         <div className="space-y-2 col-span-3">
-          {[6, 12, 45].map((p) => {
+          {buttons.map((p) => {
             const isActive = page === p;
             return (
               <button
