@@ -14,4 +14,4 @@ COPY ./app /code/app
 # Start the server using Gunicorn with Uvicorn workers
 # -w 4: starts 4 worker processes
 # -k uvicorn.workers.UvicornWorker: tells Gunicorn to use Uvicorn's protocol
-CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "-b", "0.0.0.0:8000"]
+CMD ["gunicorn", "-w", "1", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "-b", "0.0.0.0:8000"]
