@@ -6,3 +6,4 @@ faiss-cpu
 python-multipart
 pydantic
 numpy
+gunicorn
