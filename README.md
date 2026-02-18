@@ -12,9 +12,13 @@ This facilitates multi-source studying for students - quickly finding quality in
 
 ## 📖 Usage
 **Upload Textbook:** Drag and drop your entire textbook PDF into the upload zone.  
+
 **Storage:** The backend extracts and stores the document chunks to FAISS as vector embeddings with their associated metadata.  
+
 **Upload Query:** Upload a query PDF file. This could be anything and doesn't have to be very well organized/legible.  
+
 **Search:** The backend compares the Query's vector with the document vectors. After filtering out empty/low-information pages, it returns the top 5 results.  
+
 **Study:** Use the page buttons to instantly jump to relevant pages in the textbook.   
 
 
