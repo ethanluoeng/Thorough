@@ -1,15 +1,10 @@
 # app/config.py
-import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Default to localhost if nothing is provided
     allow_origins: list = [
-        "http://localhost:5173",
-        os.getenv("FRONTEND_URL"),
+        "http://192.168.10.116:5173",
     ]
-
-    class Config:
-        env_file = ".env"
 
 settings = Settings()

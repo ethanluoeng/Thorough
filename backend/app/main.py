@@ -8,13 +8,13 @@ from .pdf_utils import extract_text_by_page
 from .embeddings import embed_texts
 from .vector_store import VectorStore
 from .schemas import SearchResponse
-from .config import Settings
+from .config import settings
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=Settings.allow_origins,
+    allow_origins=settings.allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
