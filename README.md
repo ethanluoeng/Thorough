@@ -1,6 +1,8 @@
 # 📖 Thorough
 A RAG Textbook navigator that directs you to relevant pages in your textbook based on the query you upload (messy notes, practice problems, tutorials exercises, etc.) This facilitates multi-source studying for students by quickly retrieving quality information from textbooks that accompany course material, enabling students to study more broadly, deeply and **thoroughly**. 
 
+https://github.com/user-attachments/assets/432bbdd9-8926-4dd1-8fd4-90a15c66348d
+
 ## 🚨 Idea
 In one of my courses, I had a very hard time understanding the lectures and notes. When I tried pivoting to the textbook instead, constantly searching for pages that match the course material was frustrating and disruptive. Therefore, I wanted to create a simple tool that would make my own studying sessions more enjoyable.
 
@@ -28,7 +30,4 @@ _Requires Docker Desktop_
 2. Build the Docker image: `docker build -t thorough .`
 3. Run the container: `docker run -p 3000:3000 -p 8000:8000 thorough`
 4. Open http://localhost:3000 (frontend) and http://localhost:8000/docs (backend) in your browser
-
-## 🎥 Preview
-https://github.com/user-attachments/assets/432bbdd9-8926-4dd1-8fd4-90a15c66348d
 
